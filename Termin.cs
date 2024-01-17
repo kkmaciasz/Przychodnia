@@ -8,20 +8,21 @@ namespace Przychodnia
 {
     public class Termin
     {
-        DateTime dataWizyty;
-        Lekarz lekarz;
+        DateTime data;
+        bool wolny;
 
-        public DateTime DataWizyty { get => dataWizyty; set => dataWizyty = value; }
-        public Lekarz Lekarz { get => lekarz; set => lekarz = value; }
-        public Termin(DateTime dataWizyty, Lekarz lekarz)
+        public DateTime Data { get => data; set => data = value; }
+        public bool Wolny { get => wolny; set => wolny = value; }
+
+        public Termin(DateTime data)
         {
-            DataWizyty = dataWizyty;
-            Lekarz = lekarz;
+            Data = data;
+            Wolny = true;
         }
 
         public override string ToString()
         {
-            return $"{DataWizyty}, {Lekarz.Imie} {Lekarz.Nazwisko}";
+            return $"{Data}";
         }
     }
 }

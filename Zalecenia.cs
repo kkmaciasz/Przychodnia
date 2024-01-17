@@ -8,7 +8,7 @@ namespace Przychodnia
 {
     public class Zalecenia
     {
-        List<Leki> leki;
+        List<Lek> leki;
         string dawkowanie;
         string inneZalecenia;
         DateTime poczatekZwolnienia;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Przychodnia
 {
-    public class Leki
+    public class Lek
     {
         string nazwa;
         string dolegliwosc; //na co jest ten lek

@@ -6,23 +6,18 @@ using System.Threading.Tasks;
 
 namespace Przychodnia
 {
-    public class Wizyta : Termin
+    public class Wizyta
     {
+        Termin termin;
         Pacjent pacjent;
-        List<string> powodWizyty;
-        string diagnoza;
 
         public Pacjent Pacjent { get => pacjent; set => pacjent = value; }
-        public List<string> PowodWizyty { get => powodWizyty; set => powodWizyty = value; }
-        public string Diagnoza { get => diagnoza; set => diagnoza = value; }
-
-        public Wizyta(Pacjent pacjent, List<string> powodWizyty, string diagnoza, DateTime dataWizyty, Lekarz lekarz) : base(dataWizyty, lekarz)
+        public Termin Termin { get => termin; set => termin = value; } //exception do boola terminu
+        public Wizyta(Termin termin, Pacjent pacjent)
         {
+            Termin = termin;
             Pacjent = pacjent;
-            PowodWizyty = powodWizyty;
-            Diagnoza = diagnoza;
-            DataWizyty = dataWizyty;
-            Lekarz = lekarz;
         }
+
     }
 }
