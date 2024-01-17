@@ -22,7 +22,7 @@ namespace Przychodnia
 
         public override string ToString()
         {
-            return $"{Data}";
+            return $"{Data:yyyy-MM-dd HH:mm}";
         }
     }
 }

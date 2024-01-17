@@ -28,6 +28,11 @@ namespace Przychodnia
             ListaLekarzy = listaLekarzy;
         }
 
+        // dodaj lekarza
+        // dodaj pacjenta
+        // usun lekarza
+        // usun pacjenta
+
         public string WypiszLekarzy()
         {
             StringBuilder sb = new StringBuilder();
@@ -52,21 +57,50 @@ namespace Przychodnia
 
         public string WypiszMozliweWizyty(EnumSpecjalizacja specjalizacja)
         {
+            List<Termin> wolneTerm = new List<Termin>();
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Lista możliwych wizyt: ");
-            foreach(Lekarz lekarz in ListaLekarzy)
+            foreach (Lekarz lekarz in ListaLekarzy)
             {
-                foreach(EnumSpecjalizacja spec in lekarz.Specjalizacje)
+                foreach (EnumSpecjalizacja spec in lekarz.Specjalizacje)
                 {
-                    if(spec == specjalizacja)
+                    if (spec == specjalizacja)
                     {
-                        lekarz.Harmonogram.WolneTerminyAsc();
-                        foreach (Termin termin in lekarz.Harmonogram.WolneTerminy)
+                        
+                        foreach (Termin termin in lekarz.WolneTerminy)
                         {
-                            sb.Append("\n" + termin.ToString());
+                            wolneTerm.Add(termin);
                         }
                     }
                 }
+            }
+            wolneTerm.Sort((Termin a, Termin b) => a.Data.CompareTo(b.Data));
+
+            foreach (Termin term in wolneTerm)
+            {
+                foreach (Lekarz l in ListaLekarzy)
+                {
+                    foreach (Termin t in l.WolneTerminy)
+                    {
+                        if (t == term)
+                        {
+                            sb.AppendLine($"{t.ToString()}, {l.Imie} {l.Nazwisko}");
+                        }
+                    }
+                }
+            }
+            return sb.ToString();
+        }
+
+        public string WypiszWizytyPoLekarzu(Lekarz lekarz)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Lista możliwych wizyt: ");
+            sb.Append("\n" + lekarz.Imie.ToString() + " " + lekarz.Nazwisko.ToString() + ":");
+            lekarz.WolneTerminyAsc();
+            foreach (Termin termin in lekarz.WolneTerminy)
+            {
+                sb.Append("\n" + termin.ToString());
             }
             return sb.ToString();
         }

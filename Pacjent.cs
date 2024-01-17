@@ -6,35 +6,21 @@ using System.Threading.Tasks;
 
 namespace Przychodnia
 {
-    public enum EnumPlec { K, M }
-    public class Pacjent
+    public class Pacjent : Osoba
     {
-        string imie;
-        string nazwisko;
-        string pesel;
-        DateTime dataUrodzenia;
-        EnumPlec plec;
+        long telefon;
         List<OdbytaWizyta> dotychczasoweWizyty;
 
-        public string Imie { get => imie; set => imie = value; }
-        public string Nazwisko { get => nazwisko; set => nazwisko = value; }
-        public string Pesel { get => pesel; set => pesel = value; }
-        public DateTime DataUrodzenia { get => dataUrodzenia; set => dataUrodzenia = value; }
-        public EnumPlec Plec { get => plec; set => plec = value; }
         public List<OdbytaWizyta> DotychczasoweWizyty { get => dotychczasoweWizyty; set => dotychczasoweWizyty = value; }
+        public long Telefon { get => telefon; set => telefon = value; }
 
-        public Pacjent(string imie, string nazwisko, string pesel, DateTime dataUrodzenia, EnumPlec plec)
+        public Pacjent(string imie, string nazwisko, string pesel, DateTime dataUrodzenia, long telefon, List<OdbytaWizyta> dotychczasoweWizyty) : base(imie, nazwisko, pesel, dataUrodzenia)
         {
-            Imie = imie;
-            Nazwisko = nazwisko;
-            Pesel = pesel;
-            DataUrodzenia = dataUrodzenia;
-            Plec = plec;
+            Telefon = telefon;
+            DotychczasoweWizyty = new List<OdbytaWizyta>();
         }
-        public Pacjent(string imie, string nazwisko, string pesel, DateTime dataUrodzenia, EnumPlec plec, List<OdbytaWizyta> dotychczasoweWizyty)
-            : this(imie, nazwisko, pesel, dataUrodzenia, plec)
-        {
-            DotychczasoweWizyty = dotychczasoweWizyty;
-        }
+
+        // metoda odbycia wizyty - dodania jej do listy odbytych wizyt
+        // wypisz odbyte wizyty
     }
 }

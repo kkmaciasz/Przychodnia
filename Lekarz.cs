@@ -24,25 +24,20 @@ namespace Przychodnia
         anestezjologia,
         fizjoterapia
     }
-    public class Lekarz
+    public class Lekarz : Osoba
     {
-        string imie;
-        string nazwisko;
         List<EnumSpecjalizacja> specjalizacje;
         List<Termin> wolneTerminy;
         List<Wizyta> zajeteTerminy;
         List<OdbytaWizyta> odbyteWizyty;
-        public string Imie { get => imie; set => imie = value; }
-        public string Nazwisko { get => nazwisko; set => nazwisko = value; }
+
         public List<EnumSpecjalizacja> Specjalizacje { get => specjalizacje; set => specjalizacje = value; }
-        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; }
+        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } //ustawic get set zeby przedawnione terminy sie usuwaly
         public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }
         public List<OdbytaWizyta> OdbyteWizyty { get => odbyteWizyty; set => odbyteWizyty = value; }
 
-        public Lekarz(string imie, string nazwisko, List<EnumSpecjalizacja> specjalizacje)
+        public Lekarz(string imie, string nazwisko, string pesel, DateTime dataUrodzenia, List<EnumSpecjalizacja> specjalizacje) : base(imie, nazwisko, pesel, dataUrodzenia)
         {
-            Imie = imie;
-            Nazwisko = nazwisko;
             Specjalizacje = specjalizacje;
             WolneTerminy = new List<Termin>();
             ZajeteTerminy = new List<Wizyta>();
@@ -80,7 +75,7 @@ namespace Przychodnia
             }
         }
 
-        public void OdbytoWizyte(Wizyta wizyta)
+        public void OdbytoWizyte(Wizyta wizyta) //do sprawdzenia czy działa
         {
 
             if (ZajeteTerminy.Contains(wizyta) && wizyta.Termin.Data < DateTime.Now)
@@ -101,9 +96,15 @@ namespace Przychodnia
             return sb.ToString();
         }
 
-        public List<Termin> Sortuj(List<Termin> list)
+        // wypisz wolne terminy
+
+        // wypisz zajete terminy
+
+        // wypisz odbyte wizyty
+
+        public List<Termin> Sortuj(List<Termin> list) // sortuj list<wizyta> i sortuj list<odbytaWizyta>
         {
-            list.Sort((Termin a, Termin b) => a.DataWizyty.CompareTo(b.DataWizyty));
+            list.Sort((Termin a, Termin b) => a.Data.CompareTo(b.Data));
             return list;
         }
 
@@ -111,7 +112,6 @@ namespace Przychodnia
         {
             WolneTerminy = Sortuj(WolneTerminy);
         }
-
 
     }
 }
