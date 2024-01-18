@@ -180,18 +180,22 @@ namespace Przychodnia
             }
             Console.WriteLine("Wybierz datę z powyższych [wpisz w formacie yyyy-MM-dd HH:mm:ss np. 2024-05-04 13:30:00]:"); 
             string data = Console.ReadLine();
-            if (DateTime.TryParse(data, out DateTime wybranaData)) // dotąd działa ta funkcja, ogólnie jest jeszcze w fazie testow i poprawek
+            /*if (DateTime.TryParse(data, out DateTime wybranaData)) // dotąd działa ta funkcja, ogólnie jest jeszcze w fazie testow i poprawek
             {
                 Console.WriteLine($"Wprowadzona data i godzina: {wybranaData}");
             }
             else
             {
                 Console.WriteLine("Nieprawidłowy format daty i godziny."); // trzeba jakiegos breaka przy bledach tylko ze break jest do petli
-            }
-            Wizyta wizyta = new Wizyta(new Termin(wybranaData), pacjent);
-            wybranyLekarz.ZajmijTermin(wizyta); // przez ten kLopot z datą tu wywala że nie ma takiego terminu
+            }*/
+            DateTime.TryParseExact(data, new[] { "yyyy-MM-dd HH:mm:ss" }, null, DateTimeStyles.None, out DateTime date);
+            DateTime wybranaData = date;
+            Termin termin = new Termin(wybranaData);
+            Wizyta wizyta = new Wizyta(termin, pacjent, wybranyLekarz);
+            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
             pacjent.ZaplanowaneWizyty.Add(wizyta);
             ListaWizyt.Add(wizyta);
+            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
         }
 
         public void ZapiszNaWizyte(Pacjent pacjent, EnumSpecjalizacja specjalizacja)

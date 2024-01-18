@@ -10,7 +10,7 @@ namespace Przychodnia
     {
         Wizyta wizyta;
         string diagnoza;
-        Zalecenia zalecenia; // czy powinno zawierać obiekt zalecenia czy dziedziczyć po klasie zalecenia?
+        Zalecenia zalecenia;
 
         public Wizyta Wizyta { get => wizyta; set => wizyta = value; }
         public string Diagnoza { get => diagnoza; set => diagnoza = value; }
@@ -20,10 +20,16 @@ namespace Przychodnia
         {
             Wizyta = wizyta;
         }
-        public OdbytaWizyta(Wizyta wizyta, string diagnoza)
+        public OdbytaWizyta(Wizyta wizyta, string diagnoza, Zalecenia zalecenia)
         {
             Wizyta = wizyta;
             Diagnoza = diagnoza;
+            Zalecenia = zalecenia;
+        }
+
+        public override string ToString() //przypomniec sobie tostringa
+        {
+            return $"{Wizyta.ToString}, Diagnoza: {Diagnoza}, Zalecenia: {Zalecenia.ToString()} ";
         }
     }
 }

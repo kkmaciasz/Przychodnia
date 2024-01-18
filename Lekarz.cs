@@ -33,7 +33,7 @@ namespace Przychodnia
 
         public List<EnumSpecjalizacja> Specjalizacje { get => specjalizacje; set => specjalizacje = value; }
         public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } //ustawic get set zeby przedawnione terminy sie usuwaly
-        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }
+        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }//ustawic zeby zajete terminy przechodzily z wolnych od zajetych
         public List<OdbytaWizyta> OdbyteWizyty { get => odbyteWizyty; set => odbyteWizyty = value; }
 
         public Lekarz():base()
@@ -53,19 +53,6 @@ namespace Przychodnia
             WolneTerminy.Add(termin);
         }
 
-        public void ZajmijTermin(Wizyta wizyta)
-        {
-            if (WolneTerminy.Contains(wizyta.Termin))
-            {
-                WolneTerminy.Remove(wizyta.Termin);
-                ZajeteTerminy.Add(wizyta);
-            }
-            else
-            {
-                Console.WriteLine("Nie ma w bazie takiego terminu!");
-            }
-        }
-
         public void OdwolajWizyte(Wizyta wizyta)
         {
             if (ZajeteTerminy.Contains(wizyta))
@@ -81,7 +68,6 @@ namespace Przychodnia
 
         public void OdbytoWizyte(Wizyta wizyta) //do sprawdzenia czy działa
         {
-
             if (ZajeteTerminy.Contains(wizyta) && wizyta.Termin.Data < DateTime.Now)
             {
                 ZajeteTerminy.Remove(wizyta);
@@ -100,21 +86,56 @@ namespace Przychodnia
             return sb.ToString();
         }
 
-        // wypisz wolne terminy
+        public string WypiszZajeteTerminy()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Wizyta w in ZajeteTerminy)
+            {
+                sb.AppendLine(w.ToString());
+            }
+            return sb.ToString();
+        }
 
-        // wypisz zajete terminy
+        public string WypiszOdbyteWizyty()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (OdbytaWizyta ow in OdbyteWizyty)
+            {
+                sb.AppendLine(ow.ToString());
+            }
+            return sb.ToString();
+        }
 
-        // wypisz odbyte wizyty
-
-        public List<Termin> Sortuj(List<Termin> list) // sortuj list<wizyta> i sortuj list<odbytaWizyta>
+        public List<Termin> SortujTerminy(List<Termin> list)
         {
             list.Sort((Termin a, Termin b) => a.Data.CompareTo(b.Data));
             return list;
         }
 
-        public void WolneTerminyAsc()
+        public List<Wizyta> SortujWizyty(List<Wizyta> list)
         {
-            WolneTerminy = Sortuj(WolneTerminy);
+            list.Sort((Wizyta a, Wizyta b) => a.Termin.Data.CompareTo(b.Termin.Data));
+            return list;
+        }
+
+        public List<OdbytaWizyta> SortujOdbyteWizyty(List<OdbytaWizyta> list)
+        {
+            list.Sort((OdbytaWizyta a, OdbytaWizyta b) => a.Wizyta.Termin.Data.CompareTo(b.Wizyta.Termin.Data));
+            return list;
+        }
+        public void TerminyAsc()
+        {
+            WolneTerminy = SortujTerminy(WolneTerminy);
+        }
+
+        public void WizytyAsc()
+        {
+            ZajeteTerminy = SortujWizyty(ZajeteTerminy);
+        }
+
+        public void OdbyteWizytyAsc()
+        {
+            OdbyteWizyty = SortujOdbyteWizyty(OdbyteWizyty);
         }
 
     }

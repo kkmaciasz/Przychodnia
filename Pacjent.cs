@@ -21,10 +21,17 @@ namespace Przychodnia
             Telefon = telefon;
             DotychczasoweWizyty = new List<OdbytaWizyta>();
             ZaplanowaneWizyty = new List<Wizyta>();
-            // tworzenie pacjenta musi wpisywac go do przychodnia.listaPacjentow (funkcja pozniej uzyta w konstruktorze pacjenta?)
         }
 
-        // metoda odbycia wizyty - dodania jej do listy dotychczasowych wizyt
+        public void OdbytoWizyte(Wizyta wizyta) //do sprawdzenia czy działa
+        {
+            if (ZaplanowaneWizyty.Contains(wizyta) && wizyta.Termin.Data < DateTime.Now)
+            {
+                ZaplanowaneWizyty.Remove(wizyta);
+                OdbytaWizyta odbWizyta = new OdbytaWizyta(wizyta);
+                DotychczasoweWizyty.Add(odbWizyta);
+            }
+        }
         // wypisz odbyte wizyty
 
 
