@@ -20,16 +20,25 @@ namespace Przychodnia
             lekarz1.WolneTerminy.Add(termin3);
             lekarz2.WolneTerminy.Add(termin4);
             lekarz2.WolneTerminy.Add(termin5);
-
             //Console.WriteLine(lekarz1.WypiszWolneTerminy());
+
+            List<Wizyta> listaWizyt = new List<Wizyta>();
 
             List<Lekarz> listaLekarzy = new List<Lekarz>();
             listaLekarzy.Add(lekarz1);
             listaLekarzy.Add(lekarz2);
-            Przychodnia przychodnia = new Przychodnia(listaLekarzy);
 
-            Console.WriteLine(przychodnia.WypiszMozliweWizyty(EnumSpecjalizacja.kardiologia));
-            //Console.WriteLine(przychodnia.WypiszWizytyPoLekarzu(lekarz2));
+            //Console.WriteLine(przychodnia.WypiszMozliweTerminy(EnumSpecjalizacja.kardiologia));
+            
+
+            Pacjent pacjent1 = new Pacjent("Fede", "Valverde", "98072206615", new DateTime(1998, 7, 25), 151515151);
+            List<Pacjent> listaPacjentow = new List<Pacjent>();
+            listaPacjentow.Add(pacjent1);
+            Przychodnia przychodnia = new Przychodnia(listaLekarzy, listaPacjentow, listaWizyt);
+            //Console.WriteLine(przychodnia.WypiszTerminyPoLekarzu(lekarz1));
+            //Console.WriteLine(przychodnia.WypiszPacjentow());
+
+            przychodnia.ZapiszNaWizyte(pacjent1, EnumSpecjalizacja.kardiologia);
 
         }
     }

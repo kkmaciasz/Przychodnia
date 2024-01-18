@@ -17,6 +17,11 @@ namespace Przychodnia
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
         public string Pesel { get => pesel; set => pesel = value; }
         public DateTime DataUrodzenia { get => dataUrodzenia; set => dataUrodzenia = value; }
+
+        protected Osoba()
+        {
+
+        }
         protected Osoba(string imie, string nazwisko, string pesel, DateTime dataUrodzenia)
         {
             Imie = imie;

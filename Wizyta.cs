@@ -17,6 +17,7 @@ namespace Przychodnia
         {
             Termin = termin;
             Pacjent = pacjent;
+            Termin.Wolny = false;
         }
 
     }
