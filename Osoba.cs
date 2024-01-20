@@ -15,7 +15,7 @@ namespace Przychodnia
 
         public string Imie { get => imie; set => imie = value; }
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
-        public string Pesel { get => pesel; set => pesel = value; }
+        public string Pesel { get => pesel; set => pesel = value; } //regex pesel
         public DateTime DataUrodzenia { get => dataUrodzenia; set => dataUrodzenia = value; }
 
         protected Osoba()

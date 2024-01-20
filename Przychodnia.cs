@@ -36,7 +36,7 @@ namespace Przychodnia
             ListaPacjentow = listaPacjentow;
         }
 
-        public void DodajLekarza(Lekarz lekarz)
+        public void DodajLekarza(Lekarz lekarz) // exception wiek lekarza co najmniej 25 lat
         {
             ListaLekarzy.Add(lekarz);
         }
@@ -69,6 +69,25 @@ namespace Przychodnia
             {
                 Console.WriteLine("Nie ma w bazie takiego pacjenta!");
             }
+        }
+
+        public void ZajmijTermin(Termin termin, Pacjent pacjent, Lekarz lekarz)
+        {
+            foreach (var l in this.listaLekarzy) {
+                if (l == lekarz)
+                {
+                    foreach (var t in l.WolneTerminy)
+                    {
+                        if (t.Data == termin.Data)
+                        {
+                            lekarz.WolneTerminy.Remove(t);
+                        }
+                    }
+                }
+            }
+            
+            
+            
         }
 
         public string WypiszLekarzy()
@@ -175,20 +194,8 @@ namespace Przychodnia
         {
             foreach (Lekarz lekarz in ListaLekarzy)
             {
-                foreach (Termin termin in lekarz.WolneTerminy.ToList())
-                {
-                    if (termin.Wolny = false || termin.Data < DateTime.Now)
-                    {
-                        lekarz.WolneTerminy.Remove(termin);
-                    }
-                }
-                foreach (Wizyta wizyta in ListaWizyt.ToList())
-                {
-                    if (wizyta.Termin.Wolny = false || wizyta.Termin.Data < DateTime.Now)
-                    {
-                        ListaWizyt.Remove(wizyta);
-                    }
-                }
+                lekarz.WolneTerminy.RemoveAll(term => term.Data < DateTime.Now);
+                ListaWizyt.RemoveAll(wiz => wiz.Termin.Data < DateTime.Now);
             }
         }
 
@@ -210,20 +217,32 @@ namespace Przychodnia
             {
                 Console.WriteLine("Nie ma w bazie takiego lekarza.");
             }
-            Console.WriteLine("Wybierz datę z powyższych [wpisz w formacie yyyy-MM-dd HH:mm:ss np. 2024-05-04 13:30:00]:"); 
+            Console.WriteLine("Wybierz datę z powyższych [wpisz w formacie yyyy-MM-dd HH:mm np. 2024-05-04 13:30]:"); 
             string data = Console.ReadLine();
             DateTime.TryParseExact(data, new[] { "yyyy-MM-dd HH:mm:ss" }, null, DateTimeStyles.None, out DateTime date);
             DateTime wybranaData = date;
             Termin termin = new Termin(wybranaData);
             Wizyta wizyta = new Wizyta(termin, pacjent, wybranyLekarz);
-            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
+            Console.WriteLine("-----");
+            Console.WriteLine(pacjent.WypiszZaplanowaneWizyty());
             pacjent.ZaplanowaneWizyty.Add(wizyta);
+            Console.WriteLine(pacjent.WypiszZaplanowaneWizyty());
+            Console.WriteLine("-----");
+            Console.WriteLine(WypiszWizyty());
             ListaWizyt.Add(wizyta);
+            Console.WriteLine(WypiszWizyty());
+            Console.WriteLine("-----");
+            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
+            Console.WriteLine(wybranyLekarz.WypiszZajeteTerminy());
+            wybranyLekarz.WolneTerminy.RemoveAll(term => term.Data == wybranaData);
+            wybranyLekarz.ZajeteTerminy.Add(wizyta);
+            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
+            Console.WriteLine(wybranyLekarz.WypiszZajeteTerminy());
+            Console.WriteLine("-----");
+            Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
             Aktualizuj();
             Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
         }
-        //jaaa juz nie wiem XD nie dziala to 
-
 
         public void ZapiszNaWizyte(Pacjent pacjent, EnumSpecjalizacja specjalizacja)
         {
