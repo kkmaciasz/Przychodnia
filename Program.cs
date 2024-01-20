@@ -40,11 +40,12 @@ namespace Przychodnia
             //Console.WriteLine(przychodnia.WypiszTerminyPoLekarzu(lekarz1));
             //Console.WriteLine(przychodnia.WypiszPacjentow());
 
+            //przychodnia.ZapiszNaWizyte(pacjent1, EnumSpecjalizacja.kardiologia);
+            Wizyta wizyta = new Wizyta(termin1, pacjent1, lekarz1);
+            //Console.WriteLine(przychodnia.WypiszTerminyPoLekarzu(lekarz1));
+            Console.WriteLine(przychodnia.WypiszWizyty());
             przychodnia.ZapiszNaWizyte(pacjent1, EnumSpecjalizacja.kardiologia);
-            /*Wizyta wizyta = new Wizyta(termin1, pacjent1);
-            Console.WriteLine(przychodnia.WypiszTerminyPoLekarzu(lekarz1));
-            lekarz1.ZajmijTermin(wizyta);
-            Console.WriteLine(przychodnia.WypiszTerminyPoLekarzu(lekarz1));*/
+            Console.WriteLine(przychodnia.WypiszWizyty());
         }
     }
 }

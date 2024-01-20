@@ -9,13 +9,13 @@ namespace Przychodnia
     public class Zalecenia
     {
         List<Lek> leki;
-        string dawkowanie;
+        //string dawkowanie; wyrzucic bo problem - kazdy lek musi miec swoje dawkowanie, bez sensu sie w to bawic
         string inneZalecenia;
-        DateTime poczatekZwolnienia;
+        DateTime poczatekZwolnienia;//to zwolnienie tez mozna wywalic w sumie bo po co ono
         DateTime koniecZwolnienia;
 
         public List<Lek> Leki { get => leki; set => leki = value; }
-        public string Dawkowanie { get => dawkowanie; set => dawkowanie = value; }
+        //public string Dawkowanie { get => dawkowanie; set => dawkowanie = value; }
         public string InneZalecenia { get => inneZalecenia; set => inneZalecenia = value; }
         public DateTime PoczatekZwolnienia { get => poczatekZwolnienia; set => poczatekZwolnienia = value; }
         public DateTime KoniecZwolnienia { get => koniecZwolnienia; set => koniecZwolnienia = value; }
@@ -23,7 +23,7 @@ namespace Przychodnia
         public Zalecenia(List<Lek> leki, string dawkowanie, string inneZalecenia, DateTime poczatekZwolnienia, DateTime koniecZwolnienia)
         {
             Leki = leki;
-            Dawkowanie = dawkowanie;
+            //Dawkowanie = dawkowanie;
             InneZalecenia = inneZalecenia;
             PoczatekZwolnienia = poczatekZwolnienia;
             KoniecZwolnienia = koniecZwolnienia;
@@ -41,7 +41,7 @@ namespace Przychodnia
 
         public override string ToString()
         {
-            return $"Leki: {WypiszLeki()} ...";
+            return $"Leki: {WypiszLeki()}, Zalecenia: {InneZalecenia}";
         }
     }
-}
+} 

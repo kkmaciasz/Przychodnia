@@ -77,7 +77,7 @@ namespace Przychodnia
             sb.Append("Lista lekarzy: ");
             foreach (Lekarz lekarz in ListaLekarzy)
             {
-                sb.Append($"\n {lekarz.Imie} {lekarz.Nazwisko}");
+                sb.Append("\n" + lekarz.ToString());
             }
             return sb.ToString();
         }
@@ -105,12 +105,23 @@ namespace Przychodnia
             sb.Append("Lista pacjentów: ");
             foreach (Pacjent pacjent in ListaPacjentow)
             {
-                sb.Append($"\n {pacjent.Imie} {pacjent.Nazwisko}");
+                sb.Append("\n" + pacjent.ToString());
             }
             return sb.ToString();
         }
 
-        public string WypiszMozliweTerminy(EnumSpecjalizacja specjalizacja)
+        public string WypiszWizyty()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Lista nadchodzących wizyt: ");
+            foreach (Wizyta wizyta in ListaWizyt)
+            {
+                sb.Append("\n" + wizyta.ToString());
+            }
+            return sb.ToString();
+        }
+
+        public string WypiszTerminyPoSpecjalizacji(EnumSpecjalizacja specjalizacja)
         {
             List<Termin> wolneTerm = new List<Termin>();
             StringBuilder sb = new StringBuilder();
@@ -152,7 +163,7 @@ namespace Przychodnia
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Lista możliwych wizyt: ");
             sb.Append("\n" + lekarz.Imie.ToString() + " " + lekarz.Nazwisko.ToString() + ":");
-            lekarz.WolneTerminyAsc();
+            lekarz.TerminyAsc();
             foreach (Termin termin in lekarz.WolneTerminy)
             {
                 sb.Append("\n" + termin.ToString());
@@ -160,7 +171,28 @@ namespace Przychodnia
             return sb.ToString();
         }
 
-        public void Zapisz(Pacjent pacjent) //nie bede tej funkcji uzywac bezposrednio w programie, ale tylko w innych funkcjach - czy mam zmienic jej dostep albo cos tego typu?
+        public void Aktualizuj()
+        {
+            foreach (Lekarz lekarz in ListaLekarzy)
+            {
+                foreach (Termin termin in lekarz.WolneTerminy.ToList())
+                {
+                    if (termin.Wolny = false || termin.Data < DateTime.Now)
+                    {
+                        lekarz.WolneTerminy.Remove(termin);
+                    }
+                }
+                foreach (Wizyta wizyta in ListaWizyt.ToList())
+                {
+                    if (wizyta.Termin.Wolny = false || wizyta.Termin.Data < DateTime.Now)
+                    {
+                        ListaWizyt.Remove(wizyta);
+                    }
+                }
+            }
+        }
+
+        private void Zapisz(Pacjent pacjent)
         {
             string lekarz = Console.ReadLine();
             Lekarz wybranyLekarz = new Lekarz();
@@ -180,14 +212,6 @@ namespace Przychodnia
             }
             Console.WriteLine("Wybierz datę z powyższych [wpisz w formacie yyyy-MM-dd HH:mm:ss np. 2024-05-04 13:30:00]:"); 
             string data = Console.ReadLine();
-            /*if (DateTime.TryParse(data, out DateTime wybranaData)) // dotąd działa ta funkcja, ogólnie jest jeszcze w fazie testow i poprawek
-            {
-                Console.WriteLine($"Wprowadzona data i godzina: {wybranaData}");
-            }
-            else
-            {
-                Console.WriteLine("Nieprawidłowy format daty i godziny."); // trzeba jakiegos breaka przy bledach tylko ze break jest do petli
-            }*/
             DateTime.TryParseExact(data, new[] { "yyyy-MM-dd HH:mm:ss" }, null, DateTimeStyles.None, out DateTime date);
             DateTime wybranaData = date;
             Termin termin = new Termin(wybranaData);
@@ -195,8 +219,11 @@ namespace Przychodnia
             Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
             pacjent.ZaplanowaneWizyty.Add(wizyta);
             ListaWizyt.Add(wizyta);
+            Aktualizuj();
             Console.WriteLine(wybranyLekarz.WypiszWolneTerminy());
         }
+        //jaaa juz nie wiem XD nie dziala to 
+
 
         public void ZapiszNaWizyte(Pacjent pacjent, EnumSpecjalizacja specjalizacja)
         {
@@ -211,7 +238,7 @@ namespace Przychodnia
             }
             else if (n == 2)
             {
-                Console.WriteLine(WypiszMozliweTerminy(specjalizacja));
+                Console.WriteLine(WypiszTerminyPoSpecjalizacji(specjalizacja));
                 Console.WriteLine("Wybierz lekarza z powyższych (nazwisko):");
                 Zapisz(pacjent);
             }

@@ -29,7 +29,7 @@ namespace Przychodnia
 
         public override string ToString() //przypomniec sobie tostringa
         {
-            return $"{Wizyta.ToString}, Diagnoza: {Diagnoza}, Zalecenia: {Zalecenia.ToString()} ";
+            return $"{Wizyta.ToString}, Diagnoza: {Diagnoza}, Zalecenia: {Zalecenia.ToString()}";
         }
     }
 }

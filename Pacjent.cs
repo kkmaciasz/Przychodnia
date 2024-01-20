@@ -34,6 +34,9 @@ namespace Przychodnia
         }
         // wypisz odbyte wizyty
 
-
+        public override string ToString()
+        {
+            return $"{Imie} {Nazwisko}";
+        }
     }
 }

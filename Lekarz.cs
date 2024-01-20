@@ -32,11 +32,11 @@ namespace Przychodnia
         List<OdbytaWizyta> odbyteWizyty;
 
         public List<EnumSpecjalizacja> Specjalizacje { get => specjalizacje; set => specjalizacje = value; }
-        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } //ustawic get set zeby przedawnione terminy sie usuwaly
-        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }//ustawic zeby zajete terminy przechodzily z wolnych od zajetych
+        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } //ustawic zeby przedawnione terminy sie usuwaly
+        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; } //ustawic zeby zajete terminy przechodzily z wolnych od zajetych
         public List<OdbytaWizyta> OdbyteWizyty { get => odbyteWizyty; set => odbyteWizyty = value; }
 
-        public Lekarz():base()
+        public Lekarz():base() //po coś mi to było ale zapomniałam po co
         {
 
         }
@@ -138,5 +138,19 @@ namespace Przychodnia
             OdbyteWizyty = SortujOdbyteWizyty(OdbyteWizyty);
         }
 
+        public string WypiszSpecjalizacje()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach(EnumSpecjalizacja spec in Specjalizacje)
+            {
+                sb.Append(spec.ToString());
+            }
+            return sb.ToString();
+        }
+
+        public override string ToString()
+        {
+            return $"{Imie} {Nazwisko}, specjalizacja: {WypiszSpecjalizacje()}";
+        }
     }
 }
