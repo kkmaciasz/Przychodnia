@@ -36,7 +36,7 @@ namespace Przychodnia
         public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }
         public List<Wizyta> OdbyteWizyty { get => odbyteWizyty; set => odbyteWizyty = value; }
 
-        public Lekarz():base() //po coś mi to było ale zapomniałam po co
+        public Lekarz():base()
         {
 
         }
@@ -55,75 +55,14 @@ namespace Przychodnia
                 WolneTerminy.Add(termin);
             }
         }
-        
 
-        public void OdwolajWizyte(Wizyta wizyta)
-        {
-            if (ZajeteTerminy.Contains(wizyta))
-            {
-                ZajeteTerminy.Remove(wizyta);
-                WolneTerminy.Add(wizyta.Termin);
-            }
-            else
-            {
-                Console.WriteLine("Nie ma w bazie takiego terminu!");
-            }
-        }
-
-        public void OdbytoWizyte(Wizyta wizyta)
-        {
-            if (ZajeteTerminy.Contains(wizyta) && wizyta.Termin.Data < DateTime.Now)
-            {
-                ZajeteTerminy.Remove(wizyta);
-                OdbyteWizyty.Add(wizyta);
-            }
-        }
-
-        public string WypiszWolneTerminy()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Wolne terminy:");
-            foreach (Termin t in WolneTerminy)
-            {
-                sb.AppendLine(t.ToString());
-            }
-            return sb.ToString();
-        }
-
-        public string WypiszZajeteTerminy()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Zajęte terminy:");
-            foreach (Wizyta w in ZajeteTerminy)
-            {
-                sb.AppendLine(w.ToString());
-            }
-            return sb.ToString();
-        }
-
-        public string WypiszOdbyteWizyty()
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (Wizyta ow in OdbyteWizyty)
-            {
-                sb.AppendLine(ow.ToString());
-            }
-            return sb.ToString();
-        }
-
-        public List<Termin> SortujTerminy(List<Termin> list)
+        private List<Termin> SortujTerminy(List<Termin> list)
         {
             list.Sort((Termin a, Termin b) => a.Data.CompareTo(b.Data));
             return list;
         }
 
-        public List<Wizyta> SortujWizyty(List<Wizyta> list)
-        {
-            list.Sort((Wizyta a, Wizyta b) => a.Termin.Data.CompareTo(b.Termin.Data));
-            return list;
-        }
-
-        public List<Wizyta> SortujOdbyteWizyty(List<Wizyta> list)
+        private List<Wizyta> SortujWizyty(List<Wizyta> list)
         {
             list.Sort((Wizyta a, Wizyta b) => a.Termin.Data.CompareTo(b.Termin.Data));
             return list;
@@ -140,7 +79,42 @@ namespace Przychodnia
 
         public void OdbyteWizytyAsc()
         {
-            OdbyteWizyty = SortujOdbyteWizyty(OdbyteWizyty);
+            OdbyteWizyty = SortujWizyty(OdbyteWizyty);
+        }
+
+        public string WypiszWolneTerminy()
+        {
+            TerminyAsc();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Wolne terminy:");
+            foreach (Termin t in WolneTerminy)
+            {
+                sb.AppendLine(t.ToString());
+            }
+            return sb.ToString();
+        }
+
+        public string WypiszZajeteTerminy()
+        {
+            WizytyAsc();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Zajęte terminy:");
+            foreach (Wizyta w in ZajeteTerminy)
+            {
+                sb.AppendLine(w.ToString());
+            }
+            return sb.ToString();
+        }
+
+        public string WypiszOdbyteWizyty()
+        {
+            OdbyteWizytyAsc();
+            StringBuilder sb = new StringBuilder();
+            foreach (Wizyta ow in OdbyteWizyty)
+            {
+                sb.AppendLine(ow.ToString());
+            }
+            return sb.ToString();
         }
 
         public string WypiszSpecjalizacje()
@@ -148,14 +122,14 @@ namespace Przychodnia
             StringBuilder sb = new StringBuilder();
             foreach(EnumSpecjalizacja spec in Specjalizacje)
             {
-                sb.Append(spec.ToString());
+                sb.Append("  " + spec.ToString());
             }
             return sb.ToString();
         }
 
         public override string ToString()
         {
-            return $"{Imie} {Nazwisko}, specjalizacja: {WypiszSpecjalizacje()}";
+            return $"{Imie} {Nazwisko}, specjalizacja:{WypiszSpecjalizacje()}";
         }
     }
 }

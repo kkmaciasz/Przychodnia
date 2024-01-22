@@ -16,6 +16,10 @@ namespace Przychodnia
         public Termin Termin { get => termin; set => termin = value; } 
         public Lekarz Lekarz { get => lekarz; set => lekarz = value; }
 
+        public Wizyta()
+        {
+
+        }
         public Wizyta(Termin termin, Pacjent pacjent, Lekarz lekarz)
         {
             Termin = termin;

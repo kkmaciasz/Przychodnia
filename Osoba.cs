@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Przychodnia
@@ -15,8 +16,33 @@ namespace Przychodnia
 
         public string Imie { get => imie; set => imie = value; }
         public string Nazwisko { get => nazwisko; set => nazwisko = value; }
-        public string Pesel { get => pesel; set => pesel = value; } //regex pesel MAMY
-        public DateTime DataUrodzenia { get => dataUrodzenia; set => dataUrodzenia = value; }
+        public string Pesel
+        {
+            get => pesel;
+            set
+            {
+                if (!Regex.IsMatch(value, @"^\d{11}$"))
+                {
+                    throw new ArgumentException("Niepoprawny numer PESEL!");
+                }
+                pesel = value;
+            }
+        }
+        public DateTime DataUrodzenia
+        { 
+            get => dataUrodzenia;
+            set
+            {
+                if (value <= DateTime.Now)
+                {
+                    dataUrodzenia = value;
+                }
+                else
+                {
+                    throw new ArgumentException("Data urodzenia nie może być większa niż dzisiejsza data!");
+                }
+            }
+        }
 
         protected Osoba()
         {

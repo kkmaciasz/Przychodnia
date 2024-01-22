@@ -7,13 +7,17 @@ using System.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Przychodnia
 {
-    public class Przychodnia
+    interface IZapisywalna
+    {
+        void ZapiszXML(string nazwa);
+    }
+    public class Przychodnia : IZapisywalna
     {
         //przetestowac dzialanie WSZYSTKICH funkcji
-        //ZROBIĆ SERIALIZACJĘ
         List<Lekarz> listaLekarzy;
         List<Pacjent> listaPacjentow;
         List<Wizyta> listaWizyt;
@@ -22,28 +26,22 @@ namespace Przychodnia
         public List<Pacjent> ListaPacjentow { get => listaPacjentow; set => listaPacjentow = value; }
         public List<Wizyta> ListaWizyt { get => listaWizyt; set => listaWizyt = value; }
 
-        //te konstruktory nie wszystkie sa potrzebne - na razie uzywam niektorych od testowania, pozniej sie je usunie
+        public Przychodnia() 
+        {
+
+        }
+
         public Przychodnia(List<Lekarz> listaLekarzy, List<Pacjent> listaPacjentow, List<Wizyta> listaWizyt)
         {
             ListaLekarzy = listaLekarzy;
             ListaPacjentow = listaPacjentow;
             ListaWizyt = listaWizyt;
         }
-        public Przychodnia(List<Lekarz> listaLekarzy)
-        {
-            ListaLekarzy = listaLekarzy;
-        }
-        public Przychodnia(List<Pacjent> listaPacjentow)
-        {
-            ListaPacjentow = listaPacjentow;
-        }
 
         private int WiekLekarza(Lekarz lekarz)
         {
             DateTime dzisiaj = DateTime.Today;
             int wiek = dzisiaj.Year - lekarz.DataUrodzenia.Year;
-
-            // Sprawdzenie, czy urodziny lekarza już były w tym roku
             if (dzisiaj.Month < lekarz.DataUrodzenia.Month || (dzisiaj.Month == lekarz.DataUrodzenia.Month && dzisiaj.Day < lekarz.DataUrodzenia.Day))
             {
                 wiek--;
@@ -135,8 +133,14 @@ namespace Przychodnia
             return sb.ToString();
         }
 
-        public string WypiszPacjentow()
+        private void SortujPacjentow()
         {
+            ListaPacjentow.Sort();
+        }
+
+        public string WypiszPacjentow() //segreguj po nazwisku ICOMPARABLE
+        {
+            SortujPacjentow();
             StringBuilder sb = new StringBuilder();
             sb.Append("Lista pacjentów: ");
             foreach (Pacjent pacjent in ListaPacjentow)
@@ -211,7 +215,15 @@ namespace Przychodnia
         {
             foreach (Lekarz lekarz in ListaLekarzy)
             {
+                foreach (Wizyta wizyta in lekarz.ZajeteTerminy)
+                {
+                    if (wizyta.Termin.Data < DateTime.Now)
+                    {
+                        lekarz.OdbyteWizyty.Add(wizyta);
+                    }
+                }
                 lekarz.WolneTerminy.RemoveAll(term => term.Data < DateTime.Now);
+                lekarz.ZajeteTerminy.RemoveAll(wiz => wiz.Termin.Data < DateTime.Now);
                 ListaWizyt.RemoveAll(wiz => wiz.Termin.Data < DateTime.Now);
             }
             foreach (Pacjent pacjent in ListaPacjentow)
@@ -289,6 +301,23 @@ namespace Przychodnia
                 Zapisz(pacjent);
             }
             else { Console.WriteLine("Wybrałeś niepoprawny numer!"); }
+        }
+
+        public void ZapiszXML(string nazwa)
+        {
+            using StreamWriter sw = new(nazwa);
+            XmlSerializer xs = new(typeof(Przychodnia));
+            xs.Serialize(sw, this);
+        }
+        public static Przychodnia OdczytXml(string nazwa)
+        {
+            if (!File.Exists(nazwa))
+            {
+                return null;
+            }
+            using StreamReader sw = new(nazwa);
+            XmlSerializer xs = new(typeof(Przychodnia));
+            return xs.Deserialize(sw) as Przychodnia;
         }
     }
 }

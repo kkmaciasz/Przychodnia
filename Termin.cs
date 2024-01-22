@@ -14,6 +14,11 @@ namespace Przychodnia
         public DateTime Data { get => data; set => data = value; }
         public bool Wolny { get => wolny; set => wolny = value; }
 
+        public Termin()
+        {
+
+        }
+
         public Termin(DateTime data)
         {
             Data = data;
