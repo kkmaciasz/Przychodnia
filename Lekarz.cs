@@ -32,8 +32,8 @@ namespace Przychodnia
         List<Wizyta> odbyteWizyty;
 
         public List<EnumSpecjalizacja> Specjalizacje { get => specjalizacje; set => specjalizacje = value; }
-        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } //ustawic zeby przedawnione terminy sie usuwaly
-        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; } //ustawic zeby zajete terminy przechodzily z wolnych od zajetych
+        public List<Termin> WolneTerminy { get => wolneTerminy; set => wolneTerminy = value; } 
+        public List<Wizyta> ZajeteTerminy { get => zajeteTerminy; set => zajeteTerminy = value; }
         public List<Wizyta> OdbyteWizyty { get => odbyteWizyty; set => odbyteWizyty = value; }
 
         public Lekarz():base() //po coś mi to było ale zapomniałam po co

@@ -13,7 +13,7 @@ namespace Przychodnia
         Lekarz lekarz;
 
         public Pacjent Pacjent { get => pacjent; set => pacjent = value; }
-        public Termin Termin { get => termin; set => termin = value; } //exception do boola terminu
+        public Termin Termin { get => termin; set => termin = value; } 
         public Lekarz Lekarz { get => lekarz; set => lekarz = value; }
 
         public Wizyta(Termin termin, Pacjent pacjent, Lekarz lekarz)
@@ -26,9 +26,8 @@ namespace Przychodnia
 
         public override string ToString()
         {
-            return $"{Termin.Data}, pacjent: {Pacjent}, lekarz: {Lekarz}";
+            return $"{Termin.Data:yyyy-MM-dd HH:mm}, pacjent: {Pacjent}, lekarz: {Lekarz}";
         }
-
 
     }
 }

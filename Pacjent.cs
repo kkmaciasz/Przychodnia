@@ -13,7 +13,7 @@ namespace Przychodnia
         List<Wizyta> dotychczasoweWizyty;
 
         public List<Wizyta> DotychczasoweWizyty { get => dotychczasoweWizyty; set => dotychczasoweWizyty = value; }
-        public long Telefon { get => telefon; set => telefon = value; }
+        public long Telefon { get => telefon; set => telefon = value; } //regex telefon MAMY
         public List<Wizyta> ZaplanowaneWizyty { get => zaplanowaneWizyty; set => zaplanowaneWizyty = value; }
 
         public Pacjent(string imie, string nazwisko, string pesel, DateTime dataUrodzenia, long telefon) : base(imie, nazwisko, pesel, dataUrodzenia)
@@ -21,15 +21,6 @@ namespace Przychodnia
             Telefon = telefon;
             DotychczasoweWizyty = new List<Wizyta>();
             ZaplanowaneWizyty = new List<Wizyta>();
-        }
-
-        public void OdbytoWizyte(Wizyta wizyta) //dopisać do aktualizuj
-        {
-            if (ZaplanowaneWizyty.Contains(wizyta) && wizyta.Termin.Data < DateTime.Now)
-            {
-                ZaplanowaneWizyty.Remove(wizyta);
-                DotychczasoweWizyty.Add(wizyta);
-            }
         }
 
         public string WypiszOdbyteWizyty()
